@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Antivirový sken</title>
+</head>
+<body>
+  <h2>Registrace</h2>
+  <form id="registrationForm">
+    <label for="username">Uživatelské jméno:</label>
+    <input type="text" id="username" name="username" required><br><br>
+    <label for="password">Heslo:</label>
+    <input type="password" id="password" name="password" required><br><br>
+    <button type="submit">Registrovat</button>
+  </form>
+
+  <div id="scanSection" style="display: none;">
+    <h2>Nahrát soubor k vyhodnocení</h2>
+    <input type="file" id="fileInput">
+    <button onclick="scanFile()">Skenovat soubor</button>
+    <div id="scanResult"></div>
+    <p>Dávejte like a odběr na můj <a href="https://www.youtube.com/channel/UC_tezufkNkatYl12o32UOjw">YouTube kanál</a>!</p>
+    <p>Kontaktujte mě na e-mailu <a href="mailto:capolvoking@gmail.com">capolvoking@gmail.com</a>.</p>
+    <img src="images/antivirus.png" alt="Antivirus S.A.V 02" style="width: 200px;">
+    <p style="font-weight: bold;">Antivirus S.A.V 02</p>
+    <p>Jmenuji se Michal Caravanas. Narodil jsem se 10. ledna 2013, a momentálně mi je 11 let.</p>
+  </div>
+
+  <script>
+    var username;
+    var password;
+
+    document.getElementById('registrationForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Zabraňuje přesměrování po odeslání formuláře
+
+      username = document.getElementById('username').value;
+      password = document.getElementById('password').value;
+
+      // Skryjeme formulář registrace a zobrazíme sekci skenování
+      document.getElementById('registrationForm').style.display = 'none';
+      document.getElementById('scanSection').style.display = 'block';
+    });
+
+    function scanFile() {
+      var fileInput = document.getElementById('fileInput');
+      var file = fileInput.files[0];
+      var scanResult = document.getElementById('scanResult');
+
+      if (!file) {
+        scanResult.textContent = 'Prosím, vyberte soubor k nahrání.';
+        return;
+      }
+
+      // Získání MIME typu souboru
+      var fileType = file.type;
+
+      // Kontrola MIME typu
+      if (!fileType || !fileType.startsWith('application/') || !fileType.endsWith('script')) {
+        scanResult.textContent = 'Soubor ' + file.name + ' je bezpečný.';
+      } else {
+        scanResult.textContent = 'Soubor ' + file.name + ' je potenciálně nebezpečný.';
+      }
+
+      // Zobrazit poděkování
+      showThanks();
+    }
+
+    function showThanks() {
+      var scanResult = document.getElementById('scanResult');
+      var thanksMessage = document.createElement('p');
+      thanksMessage.textContent = 'Děkujeme za používání S.A.V 02.';
+      scanResult.appendChild(thanksMessage);
+
+      // Zde můžete provést další kroky pro registraci uživatele, např. odeslání dat na server, ukládání do databáze, atd.
+      // Tento příklad pouze ukazuje zprávu s údaji o registraci
+      alert('Registrace proběhla úspěšně! Uživatelské jméno: ' + username + ', heslo: ' + password);
+    }
+  </script>
+</body>
+</html>
